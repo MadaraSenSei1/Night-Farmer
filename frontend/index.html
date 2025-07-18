@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Travian Farming Bot</title>
+</head>
+<body>
+  <h1>Travian Farming Bot</h1>
+  <input id="username" placeholder="Username" />
+  <input id="password" type="password" placeholder="Password" />
+  <input id="min" type="number" placeholder="Min Interval" />
+  <input id="max" type="number" placeholder="Max Interval" />
+  <button onclick="startBot()">Start Bot</button>
+
+  <script>
+    function startBot() {
+      fetch("http://127.0.0.1:5000/start-bot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: document.getElementById("username").value,
+          password: document.getElementById("password").value,
+          min_interval: document.getElementById("min").value,
+          max_interval: document.getElementById("max").value
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          alert("✅ Bot gestartet!");
+        } else {
+          alert("❌ Fehler: " + data.error);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
